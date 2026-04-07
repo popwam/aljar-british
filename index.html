@@ -1,107 +1,1042 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aljar British District</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aljar British District</title>
+  <meta name="description" content="وحدات فندقية كاملة التشطيب في Aljar British District أمام بوابة 4 مدينتي مباشرة وعلى طريق السويس." />
 
-<style>
-body {
-    margin:0;
-    font-family: Arial;
-    background:#f7f7f7;
-}
+  <style>
+    :root{
+      --bg:#f5f7fb;
+      --card:#ffffff;
+      --text:#111827;
+      --muted:#6b7280;
+      --line:#e5e7eb;
+      --brand:#0f766e;
+      --brand-2:#134e4a;
+      --gold:#c8a96b;
+      --shadow:0 10px 30px rgba(15, 23, 42, 0.08);
+      --radius:22px;
+      --radius-sm:14px;
+      --container:1120px;
+    }
 
-.hero {
-    background:#0b1c2c;
-    color:white;
-    padding:60px 20px;
-    text-align:center;
-}
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: "Tajawal", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      line-height:1.75;
+    }
 
-.container {
-    padding:40px 20px;
-    max-width:1100px;
-    margin:auto;
-}
+    a{text-decoration:none;color:inherit}
+    img{max-width:100%;display:block}
 
-h2 {
-    color:#0b1c2c;
-}
+    .container{
+      width:min(100% - 28px, var(--container));
+      margin:auto;
+    }
 
-.box {
-    background:white;
-    padding:20px;
-    margin:15px 0;
-    border-radius:10px;
-}
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:30;
+      backdrop-filter: blur(12px);
+      background:rgba(255,255,255,.78);
+      border-bottom:1px solid rgba(229,231,235,.7);
+    }
 
-.cta {
-    background:#d4af37;
-    color:black;
-    padding:15px;
-    text-align:center;
-    font-weight:bold;
-    border-radius:8px;
-    cursor:pointer;
-}
-</style>
+    .nav{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      min-height:70px;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:800;
+      font-size:1rem;
+    }
+
+    .brand-badge{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      color:#fff;
+      display:grid;
+      place-items:center;
+      font-size:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .nav-actions{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      border-radius:999px;
+      padding:13px 18px;
+      font-weight:700;
+      font-size:.95rem;
+      transition:.25s ease;
+    }
+
+    .btn-primary{
+      background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      color:#fff;
+      box-shadow:0 12px 24px rgba(15,118,110,.22);
+    }
+
+    .btn-primary:hover{transform:translateY(-1px)}
+    .btn-outline{
+      background:#fff;
+      color:var(--text);
+      border:1px solid var(--line);
+    }
+
+    .hero{
+      padding:30px 0 22px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:18px;
+      align-items:stretch;
+    }
+
+    .hero-card{
+      background:linear-gradient(180deg, rgba(255,255,255,.96), rgba(255,255,255,.88));
+      border:1px solid rgba(255,255,255,.65);
+      box-shadow:var(--shadow);
+      border-radius:30px;
+      overflow:hidden;
+    }
+
+    .hero-media{
+      position:relative;
+      min-height:340px;
+      background:
+        linear-gradient(to top, rgba(0,0,0,.55), rgba(0,0,0,.14)),
+        url('https://images.unsplash.com/photo-1460317442991-0ec209397118?q=80&w=1400&auto=format&fit=crop') center/cover;
+    }
+
+    .hero-overlay{
+      position:absolute;
+      inset:0;
+      display:flex;
+      flex-direction:column;
+      justify-content:flex-end;
+      padding:22px;
+      color:#fff;
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      width:max-content;
+      background:rgba(255,255,255,.14);
+      color:#fff;
+      border:1px solid rgba(255,255,255,.22);
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:.85rem;
+      margin-bottom:14px;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-title{
+      font-size:clamp(1.8rem,4vw,3rem);
+      line-height:1.2;
+      margin:0 0 10px;
+      font-weight:900;
+    }
+
+    .hero-sub{
+      margin:0 0 18px;
+      color:rgba(255,255,255,.92);
+      font-size:1rem;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .hero-bottom{
+      padding:18px;
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:10px;
+      background:#fff;
+    }
+
+    .mini-stat{
+      background:#f8fafc;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+    }
+
+    .mini-stat .label{
+      color:var(--muted);
+      font-size:.82rem;
+      margin-bottom:4px;
+    }
+
+    .mini-stat .value{
+      font-weight:800;
+      font-size:1rem;
+    }
+
+    .section{
+      padding:16px 0;
+    }
+
+    .section-head{
+      margin-bottom:14px;
+    }
+
+    .section-kicker{
+      color:var(--brand);
+      font-weight:800;
+      font-size:.92rem;
+      margin-bottom:4px;
+    }
+
+    .section-title{
+      margin:0;
+      font-size:1.5rem;
+      line-height:1.3;
+    }
+
+    .section-text{
+      margin:8px 0 0;
+      color:var(--muted);
+    }
+
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:14px;
+    }
+
+    .chip{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:999px;
+      padding:10px 14px;
+      font-weight:700;
+      font-size:.9rem;
+      box-shadow:0 2px 10px rgba(15,23,42,.03);
+    }
+
+    .chip-icon{
+      width:28px;
+      height:28px;
+      border-radius:10px;
+      display:grid;
+      place-items:center;
+      background:#ecfeff;
+      color:var(--brand);
+      font-size:14px;
+      flex-shrink:0;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+    }
+
+    .card{
+      background:var(--card);
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .features{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+
+    .feature{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:14px;
+    }
+
+    .feature-icon{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      background:#f0fdfa;
+      color:var(--brand);
+      font-size:18px;
+      margin-bottom:10px;
+    }
+
+    .feature h3{
+      margin:0 0 4px;
+      font-size:1rem;
+    }
+
+    .feature p{
+      margin:0;
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    .units{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+    }
+
+    .unit-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:18px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+
+    .unit-card::before{
+      content:"";
+      position:absolute;
+      inset:auto auto 0 0;
+      width:120px;
+      height:120px;
+      background:radial-gradient(circle, rgba(15,118,110,.09), transparent 68%);
+    }
+
+    .unit-top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:12px;
+    }
+
+    .unit-name{
+      margin:0;
+      font-size:1.2rem;
+      font-weight:800;
+    }
+
+    .unit-price{
+      white-space:nowrap;
+      background:#ecfeff;
+      color:var(--brand-2);
+      border:1px solid #ccfbf1;
+      padding:8px 12px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:.9rem;
+    }
+
+    .unit-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-bottom:14px;
+    }
+
+    .unit-meta span{
+      background:#f8fafc;
+      border:1px solid var(--line);
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:.88rem;
+      font-weight:700;
+    }
+
+    .unit-desc{
+      color:var(--muted);
+      margin:0 0 14px;
+      font-size:.95rem;
+    }
+
+    .unit-btn{
+      width:100%;
+    }
+
+    .media-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+    }
+
+    .media-box{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:24px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
+
+    .media-thumb{
+      aspect-ratio:16/10;
+      background:#dbeafe center/cover no-repeat;
+    }
+
+    .media-content{
+      padding:16px;
+    }
+
+    .media-content h3{
+      margin:0 0 6px;
+      font-size:1rem;
+    }
+
+    .media-content p{
+      margin:0;
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    .video-frame iframe,
+    .map-frame iframe{
+      width:100%;
+      height:320px;
+      border:0;
+      display:block;
+    }
+
+    .location-card{
+      background:#fff;
+      border:1px solid var(--line);
+      border-radius:24px;
+      overflow:hidden;
+      box-shadow:var(--shadow);
+    }
+
+    .location-content{
+      padding:18px;
+    }
+
+    .location-list{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:12px;
+    }
+
+    .location-item{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      background:#f8fafc;
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:12px;
+    }
+
+    .location-item .icon{
+      width:34px;
+      height:34px;
+      border-radius:12px;
+      display:grid;
+      place-items:center;
+      background:#ecfeff;
+      color:var(--brand);
+      flex-shrink:0;
+    }
+
+    .cta-box{
+      background:linear-gradient(135deg,var(--brand-2),var(--brand));
+      color:#fff;
+      border-radius:28px;
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+
+    .cta-box h2{
+      margin:0 0 8px;
+      font-size:1.45rem;
+    }
+
+    .cta-box p{
+      margin:0 0 16px;
+      color:rgba(255,255,255,.9);
+    }
+
+    .footer{
+      padding:22px 0 90px;
+      color:var(--muted);
+      text-align:center;
+      font-size:.9rem;
+    }
+
+    .sticky-bar{
+      position:fixed;
+      right:12px;
+      left:12px;
+      bottom:12px;
+      z-index:45;
+      background:rgba(255,255,255,.92);
+      backdrop-filter:blur(12px);
+      border:1px solid rgba(229,231,235,.85);
+      box-shadow:0 20px 40px rgba(15,23,42,.12);
+      border-radius:22px;
+      padding:10px;
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    .sticky-info{
+      flex:1;
+      min-width:0;
+    }
+
+    .sticky-title{
+      margin:0;
+      font-size:.9rem;
+      font-weight:800;
+      line-height:1.2;
+    }
+
+    .sticky-sub{
+      margin:2px 0 0;
+      color:var(--muted);
+      font-size:.78rem;
+    }
+
+    .sticky-bar .btn{
+      padding:12px 14px;
+      font-size:.88rem;
+    }
+
+    /* Modal */
+    .modal{
+      position:fixed;
+      inset:0;
+      background:rgba(2,6,23,.58);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:60;
+      padding:16px;
+    }
+
+    .modal.active{display:flex}
+
+    .modal-card{
+      width:min(100%, 520px);
+      background:#fff;
+      border-radius:28px;
+      box-shadow:0 24px 60px rgba(15,23,42,.24);
+      overflow:hidden;
+      animation:pop .25s ease;
+    }
+
+    @keyframes pop{
+      from{transform:translateY(12px) scale(.98); opacity:.5}
+      to{transform:translateY(0) scale(1); opacity:1}
+    }
+
+    .modal-head{
+      padding:18px 18px 10px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .modal-head h3{
+      margin:0;
+      font-size:1.2rem;
+    }
+
+    .close-btn{
+      width:40px;
+      height:40px;
+      border:none;
+      border-radius:14px;
+      background:#f3f4f6;
+      cursor:pointer;
+      font-size:18px;
+    }
+
+    .modal-body{
+      padding:0 18px 18px;
+    }
+
+    .form-grid{
+      display:grid;
+      gap:12px;
+    }
+
+    .input{
+      width:100%;
+      border:1px solid var(--line);
+      background:#fff;
+      border-radius:16px;
+      padding:14px 14px;
+      font:inherit;
+      outline:none;
+    }
+
+    .input:focus{
+      border-color:#99f6e4;
+      box-shadow:0 0 0 4px rgba(45,212,191,.13);
+    }
+
+    textarea.input{
+      min-height:120px;
+      resize:vertical;
+    }
+
+    .form-note{
+      font-size:.82rem;
+      color:var(--muted);
+      margin-top:8px;
+    }
+
+    @media (min-width: 768px){
+      .hero-grid{
+        grid-template-columns:1.2fr .8fr;
+      }
+
+      .cards{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .features{
+        grid-template-columns:repeat(2,1fr);
+      }
+
+      .units{
+        grid-template-columns:repeat(3,1fr);
+      }
+
+      .media-grid{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .hero-bottom{
+        grid-template-columns:repeat(4,1fr);
+      }
+
+      .location-list{
+        grid-template-columns:1fr 1fr;
+      }
+    }
+
+    @media (max-width: 480px){
+      .hero-media{min-height:300px}
+      .hero-bottom{grid-template-columns:1fr 1fr}
+      .features{grid-template-columns:1fr}
+      .sticky-bar{
+        padding:10px;
+      }
+      .sticky-bar .btn{
+        min-width:122px;
+      }
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="hero">
-<h1>Aljar British District</h1>
-<p>امتلك وحدتك الآن أمام مدينتي مباشرة وعلى طريق السويس</p>
-<p>أسعار تبدأ من 3.3 مليون | مقدم 10% فقط</p>
-</div>
+  <header class="topbar">
+    <div class="container nav">
+      <div class="brand">
+        <div class="brand-badge">AJ</div>
+        <div>
+          <div>Aljar British District</div>
+          <small style="color:#6b7280;font-weight:600;">Serviced Apartments</small>
+        </div>
+      </div>
 
-<div class="container">
+      <div class="nav-actions">
+        <a class="btn btn-outline" href="#location">اللوكيشن</a>
+        <button class="btn btn-primary open-modal">احجز الآن</button>
+      </div>
+    </div>
+  </header>
 
-<h2>عن المشروع</h2>
-<div class="box">
-مشروع متكامل يجمع بين السكن والخدمات والتجارة والتعليم، مع وحدات فندقية كاملة التشطيب بإدارة فندقية داخل مجتمع مميز في شرق القاهرة.
-</div>
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
 
-<h2>الموقع</h2>
-<div class="box">
-مباشر على طريق السويس – أمام بوابة 4 مدينتي – جامعة Aston University داخل المشروع
-</div>
+        <div class="hero-card">
+          <div class="hero-media">
+            <!-- غيّر الصورة الرئيسية من هنا -->
+            <div class="hero-overlay">
+              <div class="eyebrow">📍 طريق السويس – أمام بوابة 4 مدينتي</div>
+              <h1 class="hero-title">وحدات فندقية كاملة التشطيب في موقع استثنائي</h1>
+              <p class="hero-sub">
+                مشروع متكامل يجمع بين السكن والاستثمار والخدمات، مع Serviced Apartments
+                وإدارة فندقية ومول تجاري وتصميم عصري مناسب للحياة الحديثة.
+              </p>
 
-<h2>الوحدات</h2>
-<div class="box">
-1 Bedroom تبدأ من 66م²<br>
-2 Bedroom تبدأ من 124م²<br>
-3 Bedroom تبدأ من 151م²
-</div>
+              <div class="hero-actions">
+                <button class="btn btn-primary open-modal">اعرف السعر والتفاصيل</button>
+                <a class="btn btn-outline" href="#units" style="background:rgba(255,255,255,.95)">عرض الوحدات</a>
+              </div>
+            </div>
+          </div>
 
-<h2>الأسعار</h2>
-<div class="box">
-سعر المتر: 50,000 جنيه<br>
-تبدأ من 3.3 مليون جنيه
-</div>
+          <div class="hero-bottom">
+            <div class="mini-stat">
+              <div class="label">سعر البداية</div>
+              <div class="value">3.3 مليون</div>
+            </div>
+            <div class="mini-stat">
+              <div class="label">المقدم</div>
+              <div class="value">10%</div>
+            </div>
+            <div class="mini-stat">
+              <div class="label">التقسيط</div>
+              <div class="value">حتى 7 سنوات</div>
+            </div>
+            <div class="mini-stat">
+              <div class="label">الاستلام</div>
+              <div class="value">خلال 3 سنوات</div>
+            </div>
+          </div>
+        </div>
 
-<h2>أنظمة السداد</h2>
-<div class="box">
-10% مقدم<br>
-10% عند الاستلام<br>
-تقسيط حتى 7 سنوات
-</div>
+        <div class="card">
+          <div class="section-kicker">لماذا Aljar British District؟</div>
+          <h2 class="section-title">مزيج قوي بين الموقع، التشطيب، والإدارة الفندقية</h2>
+          <p class="section-text">
+            فرصة مناسبة للسكن أو الاستثمار في قلب شرق القاهرة، بالقرب من مدينتي
+            وعلى محور حيوي يربطك بأهم المناطق والخدمات.
+          </p>
 
-<h2>المميزات</h2>
-<div class="box">
-Fully Finished<br>
-Serviced Apartments بإدارة فندقية<br>
-مول تجاري<br>
-شراكة مصرية بريطانية<br>
-نسبة إنجاز أكثر من 40%
-</div>
+          <div class="chips">
+            <div class="chip"><span class="chip-icon">✅</span> Fully Finished</div>
+            <div class="chip"><span class="chip-icon">🏨</span> Serviced Apartments</div>
+            <div class="chip"><span class="chip-icon">🎓</span> بجوار جامعة</div>
+            <div class="chip"><span class="chip-icon">🛍️</span> مول تجاري</div>
+            <div class="chip"><span class="chip-icon">📐</span> رائف فهمي</div>
+            <div class="chip"><span class="chip-icon">🇬🇧</span> شراكة مصرية بريطانية</div>
+          </div>
 
-<div class="cta">
-احجز وحدتك الآن
-</div>
+          <div style="margin-top:18px;">
+            <button class="btn btn-primary open-modal" style="width:100%;">احجز استشارة مجانية</button>
+          </div>
+        </div>
 
-</div>
+      </div>
+    </section>
 
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">أبرز المميزات</div>
+          <h2 class="section-title">تفاصيل ترفع قيمة المشروع وتسهل البيع</h2>
+        </div>
+
+        <div class="features">
+          <div class="feature">
+            <div class="feature-icon">📍</div>
+            <h3>موقع استراتيجي</h3>
+            <p>مباشرة على طريق السويس وأمام بوابة 4 مدينتي.</p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">🏨</div>
+            <h3>تشطيب كامل</h3>
+            <p>وحدات فندقية كاملة التشطيب جاهزة لتجربة سكن أرقى.</p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">🎓</div>
+            <h3>قرب الجامعة</h3>
+            <p>وجود جامعة بجوار المشروع يعزز القيمة الاستثمارية والطلب.</p>
+          </div>
+
+          <div class="feature">
+            <div class="feature-icon">🛍️</div>
+            <h3>خدمات ومول تجاري</h3>
+            <p>مول تجاري بتصميم الاستشاري رائف فهمي ضمن رؤية المشروع.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="units">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">الوحدات والأسعار</div>
+          <h2 class="section-title">اختيارات متنوعة تناسب السكن والاستثمار</h2>
+          <p class="section-text">اعتمدت هنا على الأسعار والمساحات التي أرسلتها باعتبارها الأحدث.</p>
+        </div>
+
+        <div class="units">
+          <div class="unit-card">
+            <div class="unit-top">
+              <h3 class="unit-name">1 Bedroom</h3>
+              <div class="unit-price">من 3.3M</div>
+            </div>
+            <div class="unit-meta">
+              <span>المساحة تبدأ من 66م²</span>
+              <span>Fully Finished</span>
+            </div>
+            <p class="unit-desc">
+              اختيار ذكي للمستثمر أو العميل الباحث عن وحدة أنيقة بمساحة عملية وسعر بداية قوي.
+            </p>
+            <button class="btn btn-primary unit-btn open-modal">احجز هذه الوحدة</button>
+          </div>
+
+          <div class="unit-card">
+            <div class="unit-top">
+              <h3 class="unit-name">2 Bedroom</h3>
+              <div class="unit-price">من 6.5M</div>
+            </div>
+            <div class="unit-meta">
+              <span>المساحة تبدأ من 124م²</span>
+              <span>Serviced Apartment</span>
+            </div>
+            <p class="unit-desc">
+              مناسبة للعائلات الصغيرة أو للمشتري الذي يبحث عن مساحة أكبر مع قيمة استثمارية قوية.
+            </p>
+            <button class="btn btn-primary unit-btn open-modal">اعرف التفاصيل</button>
+          </div>
+
+          <div class="unit-card">
+            <div class="unit-top">
+              <h3 class="unit-name">3 Bedroom</h3>
+              <div class="unit-price">من 7.3M</div>
+            </div>
+            <div class="unit-meta">
+              <span>المساحة تبدأ من 151م²</span>
+              <span>متوسط سعر المتر 50K</span>
+            </div>
+            <p class="unit-desc">
+              مساحة مريحة تناسب السكن الراقي أو الاستثمار في مشروع متعدد الاستخدامات بموقع مميز.
+            </p>
+            <button class="btn btn-primary unit-btn open-modal">اطلب الأسعار</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">صور وفيديو</div>
+          <h2 class="section-title">أماكن جاهزة لعرض المشروع بشكل جذاب</h2>
+          <p class="section-text">استبدل الروابط التالية بصور المشروع الحقيقية أو فيديو الريل/اليوتيوب.</p>
+        </div>
+
+        <div class="media-grid">
+          <div class="media-box">
+            <div class="media-thumb" style="background-image:url('https://images.unsplash.com/photo-1511818966892-d7d671e672a2?q=80&w=1200&auto=format&fit=crop');"></div>
+            <div class="media-content">
+              <h3>صورة رئيسية للمشروع</h3>
+              <p>ضع هنا صورة الواجهة أو الماستر بلان أو لقطة lifestyle قوية.</p>
+            </div>
+          </div>
+
+          <div class="media-box video-frame">
+            <!-- استبدل رابط الفيديو هنا -->
+            <iframe
+              src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+              title="Project Video"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen>
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="location">
+      <div class="container">
+        <div class="section-head">
+          <div class="section-kicker">اللوكيشن</div>
+          <h2 class="section-title">موقع يخدم السكن والاستثمار</h2>
+        </div>
+
+        <div class="cards">
+          <div class="location-card">
+            <div class="map-frame">
+              <!-- استبدل الرابط بإحداثيات المشروع الدقيقة -->
+              <iframe
+                src="https://www.google.com/maps?q=Madinaty+Gate+4&output=embed"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade">
+              </iframe>
+            </div>
+          </div>
+
+          <div class="location-card">
+            <div class="location-content">
+              <h3 style="margin:0 0 6px;">أهم مميزات الموقع</h3>
+              <p style="margin:0;color:var(--muted);">
+                موقع مباشر على طريق السويس مع قرب واضح من مدينتي والخدمات والطرق الرئيسية.
+              </p>
+
+              <div class="location-list">
+                <div class="location-item">
+                  <div class="icon">📍</div>
+                  <div>
+                    <strong>أمام بوابة 4 مدينتي</strong>
+                    <div style="color:var(--muted);font-size:.9rem;">ميزة قوية في التسويق وسهولة الوصول</div>
+                  </div>
+                </div>
+
+                <div class="location-item">
+                  <div class="icon">🛣️</div>
+                  <div>
+                    <strong>مباشرة على طريق السويس</strong>
+                    <div style="color:var(--muted);font-size:.9rem;">محور رئيسي يربط أهم مناطق شرق القاهرة</div>
+                  </div>
+                </div>
+
+                <div class="location-item">
+                  <div class="icon">🎓</div>
+                  <div>
+                    <strong>بجوار الجامعة</strong>
+                    <div style="color:var(--muted);font-size:.9rem;">يرفع الطلب على الإيجار والقيمة الاستثمارية</div>
+                  </div>
+                </div>
+
+                <div class="location-item">
+                  <div class="icon">🛍️</div>
+                  <div>
+                    <strong>قرب الخدمات والمولات</strong>
+                    <div style="color:var(--muted);font-size:.9rem;">مناسب للحياة اليومية ولجاذبية المشروع</div>
+                  </div>
+                </div>
+              </div>
+
+              <div style="margin-top:16px;">
+                <button class="btn btn-primary open-modal" style="width:100%;">اطلب اللوكيشن واتساب</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-box">
+          <h2>احصل على الأسعار الحالية وخطة السداد</h2>
+          <p>
+            10% مقدم + 10% عند الاستلام + تقسيط حتى 7 سنوات.
+            اترك بياناتك وسيتم التواصل معك فورًا.
+          </p>
+          <button class="btn btn-outline open-modal" style="background:#fff;">افتح الفورم الآن</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      Aljar British District — Landing Page Demo
+    </div>
+  </footer>
+
+  <div class="sticky-bar">
+    <div class="sticky-info">
+      <p class="sticky-title">ابدأ من 3.3 مليون جنيه</p>
+      <p class="sticky-sub">احجز الآن واعرف أحدث الأسعار والعروض</p>
+    </div>
+    <button class="btn btn-primary open-modal">احجز</button>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal" id="leadModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <div>
+          <h3>سجل بياناتك الآن</h3>
+          <div style="color:#6b7280;font-size:.92rem;">وسيتم التواصل معك بأحدث الأسعار والتفاصيل</div>
+        </div>
+        <button class="close-btn" id="closeModal">✕</button>
+      </div>
+
+      <div class="modal-body">
+        <form class="form-grid" action="https://formspree.io/f/mreojdba" method="POST">
+          <input class="input" type="text" name="name" placeholder="الاسم" required />
+          <input class="input" type="tel" name="phone" placeholder="رقم الهاتف" required />
+          <input class="input" type="email" name="email" placeholder="البريد الإلكتروني" />
+          
+          <select class="input" name="unit_type">
+            <option value="">نوع الوحدة المطلوب</option>
+            <option>1 Bedroom</option>
+            <option>2 Bedroom</option>
+            <option>3 Bedroom</option>
+          </select>
+
+          <textarea class="input" name="message" placeholder="اكتب استفسارك أو الميزانية أو طريقة التواصل المناسبة"></textarea>
+
+          <input type="hidden" name="_subject" value="New Lead - Aljar British District" />
+          <input type="hidden" name="project" value="Aljar British District" />
+
+          <button type="submit" class="btn btn-primary" style="width:100%;">إرسال البيانات</button>
+        </form>
+
+        <div class="form-note">
+          بالضغط على إرسال، أنت توافق على التواصل معك بخصوص المشروع.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const modal = document.getElementById('leadModal');
+    const openBtns = document.querySelectorAll('.open-modal');
+    const closeBtn = document.getElementById('closeModal');
+
+    openBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      });
+    });
+
+    closeBtn.addEventListener('click', () => {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    });
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+    });
+  </script>
 </body>
 </html>
