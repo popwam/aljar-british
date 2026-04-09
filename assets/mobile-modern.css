@@ -48,28 +48,84 @@ input {
   margin: auto;
 }
 
-/* mobile only */
-body::before {
-  content: "هذه النسخة مخصصة للهواتف";
-  position: fixed;
-  inset: 0;
+.desktop-fallback {
   display: none;
-  align-items: center;
-  justify-content: center;
-  background: #07101d;
-  color: #fff;
-  z-index: 9999;
-  font-weight: 800;
-  font-size: 1.1rem;
+}
+
+.mobile-only {
+  display: block;
 }
 
 @media (min-width: 769px) {
-  body > * {
-    display: none !important;
+  .mobile-only {
+    display: none;
   }
 
-  body::before {
+  .desktop-fallback {
+    min-height: 100vh;
     display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #07101d 0%, #0b1728 100%);
+    padding: 24px;
+  }
+
+  .desktop-box {
+    width: 100%;
+    max-width: 420px;
+    background: linear-gradient(180deg, #0f1b2d, #12233a);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 28px;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.35);
+    padding: 32px 24px;
+    text-align: center;
+  }
+
+  .desktop-logo {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 16px;
+    border-radius: 20px;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(135deg, var(--secondary), var(--primary));
+    color: #08111f;
+    font-weight: 900;
+    font-size: 1.4rem;
+  }
+
+  .desktop-box h1 {
+    margin: 0 0 8px;
+    font-size: 1.6rem;
+  }
+
+  .desktop-box p {
+    margin: 0 0 20px;
+    color: var(--muted);
+  }
+
+  .desktop-actions {
+    display: grid;
+    gap: 10px;
+  }
+
+  .desktop-btn {
+    min-height: 52px;
+    border-radius: 16px;
+    display: grid;
+    place-items: center;
+    font-weight: 900;
+  }
+
+  .call-btn {
+    background: rgba(255, 255, 255, 0.08);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .wa-btn {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: #07101d;
   }
 }
 
@@ -165,6 +221,23 @@ body::before {
   position: relative;
   z-index: 2;
   padding: 28px 0 24px;
+}
+
+.offer-strip {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.offer-strip span {
+  display: block;
+  text-align: center;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.86rem;
+  font-weight: 900;
 }
 
 .hero-badge {
