@@ -47,7 +47,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   window.addEventListener("load", function () {
     const alreadyShown = localStorage.getItem("aljar_mobile_modern_modal_shown");
-
     if (!alreadyShown && window.innerWidth <= 768) {
       setTimeout(function () {
         openModal();
@@ -56,6 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  // تتبع النقر على واتساب واتصال
   document.querySelectorAll('a[href*="wa.me"]').forEach((el) => {
     el.addEventListener("click", function () {
       if (typeof gtag === "function") {
@@ -78,19 +78,46 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  // معالجة إرسال الفورم مع التحقق الذكي (الفلترة)
   if (leadForm) {
     leadForm.addEventListener("submit", async function (e) {
       e.preventDefault();
 
+      // 1. الفلترة: التحقق من الاختبار الرياضي
+      const mathAnswer = document.getElementById('mathAnswer').value;
+      if (parseInt(mathAnswer) !== 13) {
+        alert('عفواً، إجابة الاختبار الرياضي غير صحيحة.');
+        return;
+      }
+
+      // 2. الفلترة: التحقق من الاسم (يمنع الأسماء الوهمية القصيرة جداً)
+      const nameVal = leadForm.querySelector('input[name="name"]').value.trim();
+      if (nameVal.length < 3) {
+        alert('يرجى إدخال الاسم الكامل لضمان الجدية.');
+        return;
+      }
+
+      // 3. الفلترة: التحقق من رقم الهاتف (يجب أن يكون أرقام فقط وطول منطقي)
+      const phoneVal = leadForm.querySelector('input[name="phone"]').value.trim();
+      const phoneRegex = /^[0-9]+$/;
+      if (!phoneRegex.test(phoneVal) || phoneVal.length < 10) {
+        alert('يرجى إدخال رقم هاتف صحيح (أرقام فقط).');
+        return;
+      }
+
+      // 4. الفلترة: التحقق من خانة الموافقة
+      const confirmCheck = document.getElementById('confirmCall').checked;
+      if (!confirmCheck) {
+        alert('يرجى الموافقة على تلقي الاتصال للمتابعة.');
+        return;
+      }
+
+      // إذا اجتاز كل الاختبارات، نبدأ الإرسال
       const formData = new FormData(leadForm);
 
       if (submitBtn) {
         submitBtn.disabled = true;
-        submitBtn.textContent = "جاري الإرسال...";
-      }
-
-      if (formMessage) {
-        formMessage.textContent = "";
+        submitBtn.textContent = "جاري التأكد والإرسال...";
       }
 
       try {
@@ -104,9 +131,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (response.ok) {
           if (formMessage) {
-            formMessage.textContent = "تم إرسال البيانات بنجاح";
+            formMessage.textContent = "تم إرسال طلبك بنجاح، سنتواصل معك قريباً.";
+            formMessage.style.color = "#10b981";
           }
-
           leadForm.reset();
 
           if (typeof gtag === "function") {
@@ -118,18 +145,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
           setTimeout(function () {
             closeModal();
-            if (formMessage) {
-              formMessage.textContent = "";
-            }
-          }, 1500);
+            if (formMessage) formMessage.textContent = "";
+          }, 2500);
         } else {
-          if (formMessage) {
-            formMessage.textContent = "حدث خطأ، حاول مرة أخرى";
-          }
+          throw new Error("Failed");
         }
       } catch (error) {
         if (formMessage) {
-          formMessage.textContent = "تعذر الإرسال، تحقق من الاتصال بالإنترنت";
+          formMessage.textContent = "حدث خطأ، يرجى المحاولة مرة أخرى.";
+          formMessage.style.color = "#ef4444";
         }
       } finally {
         if (submitBtn) {
