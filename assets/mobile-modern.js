@@ -79,88 +79,72 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // معالجة إرسال الفورم مع التحقق الذكي (الفلترة)
-  if (leadForm) {
+if (leadForm) {
     leadForm.addEventListener("submit", async function (e) {
       e.preventDefault();
+      
+      // إخفاء الأخطاء القديمة
+      document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('input').forEach(el => el.classList.remove('input-error'));
 
-      // 1. الفلترة: التحقق من الاختبار الرياضي
-      const mathAnswer = document.getElementById('mathAnswer').value;
-      if (parseInt(mathAnswer) !== 13) {
-        alert('عفواً، إجابة الاختبار الرياضي غير صحيحة.');
-        return;
+      let isValid = true;
+
+      // 1. فحص الاسم
+      const name = document.getElementById('userName');
+      if (name.value.trim().length < 10) {
+        showError('nameError', name, 'يرجى إدخال اسمك الثلاثي');
+        isValid = false;
       }
 
-      // 2. الفلترة: التحقق من الاسم (يمنع الأسماء الوهمية القصيرة جداً)
-      const nameVal = leadForm.querySelector('input[name="name"]').value.trim();
-      if (nameVal.length < 3) {
-        alert('يرجى إدخال الاسم الكامل لضمان الجدية.');
-        return;
+      // 2. فحص الهاتف
+      const phone = document.getElementById('userPhone');
+      const repeatedPhone = /^(\d)\1+$/;
+      if (phone.value.length < 11 || repeatedPhone.test(phone.value)) {
+        showError('phoneError', phone, 'رقم الهاتف غير صحيح');
+        isValid = false;
       }
 
-      // 3. الفلترة: التحقق من رقم الهاتف (يجب أن يكون أرقام فقط وطول منطقي)
-      const phoneVal = leadForm.querySelector('input[name="phone"]').value.trim();
-      const phoneRegex = /^[0-9]+$/;
-      if (!phoneRegex.test(phoneVal) || phoneVal.length < 10) {
-        alert('يرجى إدخال رقم هاتف صحيح (أرقام فقط).');
-        return;
+      // 3. فحص الوظيفة
+      const job = document.getElementById('userJob');
+      if (job.value.length < 3) {
+        showError('jobError', job, 'يرجى كتابة وظيفة حقيقية');
+        isValid = false;
       }
 
-      // 4. الفلترة: التحقق من خانة الموافقة
-      const confirmCheck = document.getElementById('confirmCall').checked;
-      if (!confirmCheck) {
-        alert('يرجى الموافقة على تلقي الاتصال للمتابعة.');
-        return;
+      // 4. فحص كود الأمان (88)
+      const code = document.getElementById('secureCode');
+      if (code.value !== '88') {
+        showError('codeError', code, 'كود التحقق غير صحيح');
+        isValid = false;
       }
 
-      // إذا اجتاز كل الاختبارات، نبدأ الإرسال
+      if (!isValid) return; // لو فيه غلط ميكملش
+
+      // ... كملي باقي كود الـ fetch الأصلي هنا لإرسال البيانات ...
       const formData = new FormData(leadForm);
-
-      if (submitBtn) {
-        submitBtn.disabled = true;
-        submitBtn.textContent = "جاري التأكد والإرسال...";
-      }
-
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "جاري الإرسال..."; }
+      
       try {
         const response = await fetch("https://formspree.io/f/mreojdba", {
           method: "POST",
           body: formData,
-          headers: {
-            Accept: "application/json",
-          },
+          headers: { Accept: "application/json" },
         });
-
         if (response.ok) {
-          if (formMessage) {
-            formMessage.textContent = "تم إرسال طلبك بنجاح، سنتواصل معك قريباً.";
-            formMessage.style.color = "#10b981";
-          }
+          formMessage.textContent = "تم بنجاح!";
           leadForm.reset();
-
-          if (typeof gtag === "function") {
-            gtag("event", "form_submit", {
-              event_category: "lead",
-              event_label: window.location.pathname || "/",
-            });
-          }
-
-          setTimeout(function () {
-            closeModal();
-            if (formMessage) formMessage.textContent = "";
-          }, 2500);
-        } else {
-          throw new Error("Failed");
+          setTimeout(() => closeModal(), 2000);
         }
-      } catch (error) {
-        if (formMessage) {
-          formMessage.textContent = "حدث خطأ، يرجى المحاولة مرة أخرى.";
-          formMessage.style.color = "#ef4444";
-        }
-      } finally {
-        if (submitBtn) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = "إرسال البيانات";
-        }
-      }
+      } catch (err) { formMessage.textContent = "خطأ في الاتصال"; }
+      finally { submitBtn.disabled = false; submitBtn.textContent = "إرسال البيانات"; }
     });
+  }
+
+  // دالة مساعدة لإظهار الخطأ
+  function showError(id, inputEl, msg) {
+    const errorEl = document.getElementById(id);
+    errorEl.textContent = msg;
+    errorEl.classList.add('active');
+    inputEl.classList.add('input-error');
   }
 });

@@ -563,3 +563,22 @@ summary {
   color: var(--primary);
   font-weight: 800;
 }
+.input-group {
+    margin-bottom: 15px;
+    position: relative;
+}
+.error-msg {
+    color: #ff4d4d;
+    font-size: 11px;
+    margin-top: 4px;
+    display: block;
+    height: 0; /* بيخليها مختفية في الأول */
+    overflow: hidden;
+    transition: 0.3s;
+}
+.error-msg.active {
+    height: 15px; /* بتظهر لما نديها الكلاس ده */
+}
+input.input-error {
+    border-color: #ff4d4d !important;
+}

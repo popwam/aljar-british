@@ -306,27 +306,37 @@
           <p>يرجى إدخال البيانات وسيتواصل معك مستشارك العقاري.</p>
         </div>
 
-        <form class="lead-form" id="leadForm">
-          <input type="text" name="name" placeholder="الاسم الكامل" required />
-          <input type="tel" name="phone" placeholder="رقم الهاتف (واتساب)" required />
-          <input type="text" name="job" placeholder="المسمى الوظيفي (مثال: صاحب عمل، طبيب..)" required />
+          <form class="lead-form" id="leadForm">
+            <div class="input-group">
+              <input type="text" name="name" id="userName" placeholder="الاسم الكامل" required />
+              <span class="error-msg" id="nameError"></span>
+            </div>
 
-          <div style="display: flex; align-items: flex-start; gap: 10px; margin: 10px 0; font-size: 13px; color: #cbd5e1; text-align: right;">
-            <input type="checkbox" id="confirmCall" required style="margin-top: 4px; width: 18px; height: 18px; cursor: pointer;">
-            <label for="confirmCall">أؤكد جديتي وأوافق على تلقي مكالمة من المستشار العقاري لشرح التفاصيل.</label>
-          </div>
+            <div class="input-group">
+              <input type="tel" name="phone" id="userPhone" placeholder="رقم الهاتف (واتساب)" required />
+              <span class="error-msg" id="phoneError"></span>
+            </div>
 
-          <div style="margin: 15px 0;">
-            <label style="display: block; margin-bottom: 5px; font-size: 14px; color: #94a3b8;">اختبار أمان: كم ناتج 5 + 8 ؟</label>
-            <input type="number" id="mathAnswer" placeholder="اكتب الناتج هنا" required />
-          </div>
+            <div class="input-group">
+              <input type="text" name="job" id="userJob" placeholder="المسمى الوظيفي" required />
+              <span class="error-msg" id="jobError"></span>
+            </div>
 
-          <input type="hidden" name="_subject" value="New Verified Lead - Aljar British" />
-          <input type="hidden" name="project" value="Aljar British District" />
+            <div class="input-group">
+              <label style="font-size: 13px; color: #94a3b8; display: block; margin-bottom: 5px;">كود التحقق: اكتب الرقم <b>88</b> بالأسفل</label>
+              <input type="number" id="secureCode" placeholder="أدخل الكود هنا" required />
+              <span class="error-msg" id="codeError"></span>
+            </div>
 
-          <button type="submit" class="btn btn-primary full-btn" id="submitBtn">إرسال طلب الحجز</button>
-          <p id="formMessage" class="form-message"></p>
-        </form>
+            <div class="checkbox-group">
+              <input type="checkbox" id="confirmCall" required>
+              <label for="confirmCall">أوافق على تلقي مكالمة شرح التفاصيل</label>
+              <span class="error-msg" id="checkError"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary full-btn" id="submitBtn">إرسال طلب الحجز</button>
+            <p id="formMessage" class="form-message"></p>
+          </form>
       </div>
     </div>
   </div>
