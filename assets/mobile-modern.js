@@ -2,12 +2,17 @@ document.addEventListener("DOMContentLoaded", function () {
   const modal = document.getElementById("leadModal");
   const openButtons = document.querySelectorAll(".open-modal");
   const closeButton = document.getElementById("closeModal");
+
   const leadForm = document.getElementById("leadForm");
   const submitBtn = document.getElementById("submitBtn");
   const formMessage = document.getElementById("formMessage");
 
+  const desktopLeadForm = document.getElementById("desktopLeadForm");
+  const desktopSubmitBtn = document.getElementById("desktopSubmitBtn");
+  const desktopFormMessage = document.getElementById("desktopFormMessage");
+
   function openModal() {
-    if (!modal) return;
+    if (!modal || window.innerWidth >= 769) return;
     modal.classList.add("show");
     modal.setAttribute("aria-hidden", "false");
     document.body.style.overflow = "hidden";
@@ -55,7 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  // تتبع النقر على واتساب واتصال
   document.querySelectorAll('a[href*="wa.me"]').forEach((el) => {
     el.addEventListener("click", function () {
       if (typeof gtag === "function") {
@@ -78,73 +82,147 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
-  // معالجة إرسال الفورم مع التحقق الذكي (الفلترة)
-if (leadForm) {
-    leadForm.addEventListener("submit", async function (e) {
+  function showError(id, inputEl, msg) {
+    const errorEl = document.getElementById(id);
+    if (errorEl) {
+      errorEl.textContent = msg;
+      errorEl.classList.add("active");
+    }
+    if (inputEl) {
+      inputEl.classList.add("input-error");
+    }
+  }
+
+  function clearErrors(form) {
+    form.querySelectorAll(".error-msg").forEach((el) => el.classList.remove("active"));
+    form.querySelectorAll("input").forEach((el) => el.classList.remove("input-error"));
+  }
+
+  async function handleFormSubmit({
+    form,
+    submitBtnEl,
+    messageEl,
+    nameId,
+    phoneId,
+    jobId,
+    nameErrorId,
+    phoneErrorId,
+    jobErrorId,
+    closeAfter = false,
+  }) {
+    if (!form) return;
+
+    form.addEventListener("submit", async function (e) {
       e.preventDefault();
-      
-      // إخفاء الأخطاء القديمة
-      document.querySelectorAll('.error-msg').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('input').forEach(el => el.classList.remove('input-error'));
+
+      clearErrors(form);
 
       let isValid = true;
 
-      // 1. فحص الاسم
-      const name = document.getElementById('userName');
-      if (name.value.trim().length < 10) {
-        showError('nameError', name, 'يرجى إدخال اسمك الثلاثي');
-        isValid = false;
-      }
+      const name = document.getElementById(nameId);
+      const phone = document.getElementById(phoneId);
+      const job = document.getElementById(jobId);
 
-      // 2. فحص الهاتف
-      const phone = document.getElementById('userPhone');
       const repeatedPhone = /^(\d)\1+$/;
-      if (phone.value.length < 11 || repeatedPhone.test(phone.value)) {
-        showError('phoneError', phone, 'رقم الهاتف غير صحيح');
+
+      if (!name || name.value.trim().length < 10) {
+        showError(nameErrorId, name, "يرجى إدخال الاسم الثلاثي");
         isValid = false;
       }
 
-      // 3. فحص الوظيفة
-      const job = document.getElementById('userJob');
-      if (job.value.length < 3) {
-        showError('jobError', job, 'يرجى كتابة وظيفة حقيقية');
+      if (!phone || phone.value.trim().length < 11 || repeatedPhone.test(phone.value.trim())) {
+        showError(phoneErrorId, phone, "رقم الهاتف غير صحيح");
         isValid = false;
       }
 
-      // 4. فحص كود الأمان (88)
-      const code = document.getElementById('secureCode');
-      if (code.value !== '88') {
-        showError('codeError', code, 'كود التحقق غير صحيح');
+      if (!job || job.value.trim().length < 3) {
+        showError(jobErrorId, job, "يرجى كتابة وظيفة حقيقية");
         isValid = false;
       }
 
-      if (!isValid) return; // لو فيه غلط ميكملش
+      if (!isValid) return;
 
-      // ... كملي باقي كود الـ fetch الأصلي هنا لإرسال البيانات ...
-      const formData = new FormData(leadForm);
-      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = "جاري الإرسال..."; }
-      
+      const formData = new FormData(form);
+
+      if (submitBtnEl) {
+        submitBtnEl.disabled = true;
+        submitBtnEl.textContent = "جاري الإرسال...";
+      }
+
+      if (messageEl) {
+        messageEl.textContent = "";
+      }
+
       try {
         const response = await fetch("https://formspree.io/f/mreojdba", {
           method: "POST",
           body: formData,
-          headers: { Accept: "application/json" },
+          headers: {
+            Accept: "application/json",
+          },
         });
+
         if (response.ok) {
-          formMessage.textContent = "تم بنجاح!";
-          leadForm.reset();
-          setTimeout(() => closeModal(), 2000);
+          if (messageEl) {
+            messageEl.textContent = "تم إرسال البيانات بنجاح";
+          }
+
+          form.reset();
+
+          if (typeof gtag === "function") {
+            gtag("event", "form_submit", {
+              event_category: "lead",
+              event_label: window.location.pathname || "/",
+            });
+          }
+
+          if (closeAfter) {
+            setTimeout(() => {
+              closeModal();
+              if (messageEl) messageEl.textContent = "";
+            }, 1800);
+          }
+        } else {
+          if (messageEl) {
+            messageEl.textContent = "حدث خطأ، حاول مرة أخرى";
+          }
         }
-      } catch (err) { formMessage.textContent = "خطأ في الاتصال"; }
-      finally { submitBtn.disabled = false; submitBtn.textContent = "إرسال البيانات"; }
+      } catch (err) {
+        if (messageEl) {
+          messageEl.textContent = "خطأ في الاتصال";
+        }
+      } finally {
+        if (submitBtnEl) {
+          submitBtnEl.disabled = false;
+          submitBtnEl.textContent = "إرسال البيانات";
+        }
+      }
     });
   }
 
-  // دالة مساعدة لإظهار الخطأ
-  function showError(id, inputEl, msg) {
-    const errorEl = document.getElementById(id);
-    errorEl.textContent = msg;
-    errorEl.classList.add('active');
-    inputEl.classList.add('input-error');
-  }
+  handleFormSubmit({
+    form: leadForm,
+    submitBtnEl: submitBtn,
+    messageEl: formMessage,
+    nameId: "userName",
+    phoneId: "userPhone",
+    jobId: "userJob",
+    nameErrorId: "nameError",
+    phoneErrorId: "phoneError",
+    jobErrorId: "jobError",
+    closeAfter: true,
+  });
+
+  handleFormSubmit({
+    form: desktopLeadForm,
+    submitBtnEl: desktopSubmitBtn,
+    messageEl: desktopFormMessage,
+    nameId: "desktopUserName",
+    phoneId: "desktopUserPhone",
+    jobId: "desktopUserJob",
+    nameErrorId: "desktopNameError",
+    phoneErrorId: "desktopPhoneError",
+    jobErrorId: "desktopJobError",
+    closeAfter: false,
+  });
 });
